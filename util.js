@@ -1,9 +1,9 @@
-/* istanbul ignore file */
-
+// This function generates a random number which is in between 0 and 1
 const getGenerator = () => {
     return Math.random()
 }
 
+// This function generates a random integer
 const int = (opts) => {
     var ret;
 
@@ -23,7 +23,7 @@ const int = (opts) => {
     return ret;
 };
 
-
+// This is the function called from the shuffle function in order to get the index to start with the shuffling
 const generator = (gen) => {
     return (max) => int({ min: 0, max, gen });
 };

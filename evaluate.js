@@ -2,16 +2,20 @@ const {draw} = require('./deck')
 
 const order = "A23456789TJQK"
 
+// This function returns the hand details, meaning the rank of the hand and the value of the hand which is used in further calculations to determine the winner
 const getHandDetails = (hand) => {
     const cards = hand
     const faces = cards.map(a => String.fromCharCode([77 - order.indexOf(a[0])])).sort()
     const suits = cards.map(a => a[1]).sort()
 
+    // if all the faces are equal then it is a FLUSH
     const flush = faces[0] === faces[4]
 
+    // if there is a pair of faces then it is a PAIR
     const counts = faces.reduce(count, {})
     const pairs = Object.values(counts).reduce(count, {})
 
+    // if the faces are in sequence then it is a STRAIGHT
     const first = faces[0].charCodeAt(0)
     const straight = faces.every((f, index) => f.charCodeAt(0) - first === index)
 
@@ -35,8 +39,10 @@ const getHandDetails = (hand) => {
     }
 }
 
+// This function gets the Indexes of the each player
 const indexOfAll = (arr, val) => arr.reduce((acc, el, i) => (el === val ? [...acc, i] : acc), []);
 
+// This is a reccuresive function where the comparision between top cards happen and it will either tell the winner or throw an error when the cards are empty in the deck
 const compareDrawLoop = (deck, index) => {
     console.log('Drawing a card for each player')
         const one = draw(deck, 1)
@@ -52,6 +58,7 @@ const compareDrawLoop = (deck, index) => {
         }
 }
 
+// This function determines which player is winner when there is a tie between two players at the initial stage
 const compareDraw = (play1, play2, index, typeOfHand, deck) => {
     console.log(index)
     if(play1.value < play2.value){
@@ -64,6 +71,7 @@ const compareDraw = (play1, play2, index, typeOfHand, deck) => {
     }
 }
 
+// This function determines who is the winner of the game
 const compareHands = (h1, h2, h3, h4, deck) => {
     let d1 = getHandDetails(h1)
     let d2 = getHandDetails(h2)
