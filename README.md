@@ -10,10 +10,12 @@ Basic Rules:
 - 'A' is considered the top card in a face-off. So the order is A > K > Q > J > 10...2
 
 Victory:
-- FLUSH - Three cards of the same number is the highest possible combination. (Done)
-- STRAIGHT - The next highest is a sequence (numbers in order, e.g., 4,5,6. A is considered to have a value of 1).(Done)
-- PAIR - The next highest is a pair of cards (e.g.: two Kings or two 10s). (Done)
-- HIGH CARD - If all else fails, the top card (by number value wins). (TBD)
-- If the top card has the same value, each of the tied players draws a single card from the deck until a winner is found. (TBD)
-- Only the newly drawn cards are compared to decide a tie. The top card wins a tie. (TBD)
-- For now the suit (spades/hearts etc...), does not matter. (TBD)
+- FLUSH - Three cards of the same number is the highest possible combination. (Rank:1)
+- STRAIGHT - The next highest is a sequence (numbers in order, e.g., 4,5,6. A is considered to have a value of 1). (Rank:2)
+- PAIR - The next highest is a pair of cards (e.g.: two Kings or two 10s). (Rank:3)
+- If all else fails,the game doesn't have any winners. (Rank:4)
+- If there is a tie for more than 2 players, the game doesn't have any winners.
+- If there is a tie, the top card (by number value wins). 
+- If the top card has the same value, each of the tied players draws a single card from the deck until a winner is found.
+- Only the newly drawn cards are compared to decide a tie. The top card wins a tie. 
+- For now the suit (spades/hearts etc...), does not matter. 

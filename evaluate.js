@@ -1,3 +1,5 @@
+const {draw} = require('./deck') 
+
 const order = "A23456789TJQK"
 
 const getHandDetails = (hand) => {
@@ -35,20 +37,60 @@ const getHandDetails = (hand) => {
 
 const indexOfAll = (arr, val) => arr.reduce((acc, el, i) => (el === val ? [...acc, i] : acc), []);
 
-const compareHands = (h1, h2, h3, h4) => {
+const compareDrawLoop = (deck, index) => {
+    console.log('Drawing a card for each player')
+        const one = draw(deck, 1)
+        console.log(`Card of Player ${index[0] + 1} is ${one.cards}`)
+        const two = draw(one.deck, 1)
+        console.log(`Card of Player ${index[1] + 1} is ${two.cards}`)
+        if(one.cards < two.cards){
+            return `The winner of the match is Player ${index[0] + 1} with high card`
+        } else if (one.cards > two.cards){
+            return `The winner of the match is Player ${index[1] + 1} with high card`
+        } else {
+            return compareDrawLoop(two.deck, index)
+        }
+}
+
+const compareDraw = (play1, play2, index, typeOfHand, deck) => {
+    console.log(index)
+    if(play1.value < play2.value){
+        return `The winner of the match is Player ${index[0] + 1} with ${typeOfHand}`
+    } else if (play1.value > play2.value){
+        return `The winner of the match is Player ${index[1] + 1} with ${typeOfHand}`
+    } else {
+        console.log(`The match was draw between Player ${index[0] + 1} and Player ${index[1] + 1} with ${typeOfHand}`)
+        return compareDrawLoop(deck, index)
+    }
+}
+
+const compareHands = (h1, h2, h3, h4, deck) => {
     let d1 = getHandDetails(h1)
     let d2 = getHandDetails(h2)
     let d3 = getHandDetails(h3)
     let d4 = getHandDetails(h4)
 
+    const rankMap = new Map();
+
+    rankMap.set(0, d1);
+    rankMap.set(1, d2);
+    rankMap.set(2, d3);
+    rankMap.set(3, d4);
+
     const rankList = [d1.rank, d2.rank, d3.rank, d4.rank]
+
+    console.log(rankList)
+    console.log(rankMap)
 
     if (rankList.includes(1)) {
         const index = indexOfAll(rankList, 1)
         if (index.length > 2) {
             return `This match doesn't have any winners`
         } else if (index.length == 2) {
-            return `The match was draw between Player ${index[0] + 1} and Player ${index[1] + 1} with flush`
+            const player1 = rankMap.get(index[0]);
+            const player2 = rankMap.get(index[1]);
+
+            return compareDraw(player1, player2, index, 'flush', deck)
         } else {
             return `The winner of the match is Player ${index[0] + 1} with flush`
         }
@@ -59,7 +101,10 @@ const compareHands = (h1, h2, h3, h4) => {
         if (index.length > 2) {
             return `This match doesn't have any winners`
         } else if (index.length == 2) {
-            return `The match was draw between Player ${index[0] + 1} and Player ${index[1] + 1} with straight`
+            const player1 = rankMap.get(index[0]);
+            const player2 = rankMap.get(index[1]);
+
+            return compareDraw(player1, player2, index, 'straight', deck)
         } else {
             return `The winner of the match is Player ${index[0] + 1} with straight`
         }
@@ -70,7 +115,10 @@ const compareHands = (h1, h2, h3, h4) => {
         if (index.length > 2) {
             return `This match doesn't have any winners`
         } else if (index.length == 2) {
-            return `The match was draw between Player ${index[0] + 1} and Player ${index[1] + 1} with pair`
+            const player1 = rankMap.get(index[0]);
+            const player2 = rankMap.get(index[1]);
+
+            return compareDraw(player1, player2, index, 'pair', deck)
         } else {
             return `The winner of the match is Player ${index[0] + 1} with pair`
         }

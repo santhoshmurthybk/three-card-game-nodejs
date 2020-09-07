@@ -17,9 +17,9 @@ const generateDeck = () => {
 
 module.exports.generateDeck = generateDeck;
 
+/*istanbul ignore next */
 const shuffle = (deck) => {
     const randInt = generator(2);
-
     for (let i = deck.length - 1, j; i > 0; i--) {
         let j = randInt(i);
         let tmp = deck[i];
@@ -38,8 +38,9 @@ const draw = (deck, count) => {
         throw new Error('Deck: Cannot draw from deck, no cards remaining');
     }
 
-    if (count < 0) {
-        return [];
+    if (count <= 0) {
+        const cards = []
+        return {deck, cards};
     }
 
     const cards = deck.splice(0, count);
